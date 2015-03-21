@@ -1,0 +1,223 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumerate}
+\usepackage[mathscr]{eucal}
+\usepackage{fancyhdr}
+\usepackage[top=1.5in, bottom=1.5in, left=1.0in, right=1.0in]{geometry}
+\usepackage{lastpage}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{tikz}
+
+\newcommand{\Author}[1]{\def \AuthorVar {#1}}
+\newcommand{\Course}[1]{\def \CourseVar {#1}}
+\newcommand{\Title}[1]{\def \TitleVar {#1}}
+\newcommand{\Semester}[1]{\def \SemesterVar {#1}}
+
+\pagestyle{fancy}
+\lhead{\textbf{\CourseVar}}
+\chead{\textbf{\TitleVar}}
+\rhead{\textbf{\AuthorVar}}
+\lfoot{\textbf{\SemesterVar}}
+\cfoot{}
+\rfoot{\textbf{\thepage\ of \pageref{LastPage}}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\newcommand{\tbf}{\textbf}
+\newcommand{\tit}{\textit}
+\newcommand{\tsl}{\textsl}
+\newcommand{\tsc}{\textsc}
+\newcommand{\ttt}{\texttt}
+\newcommand{\trm}{\textrm}
+\newcommand{\tsf}{\textsf}
+\newcommand{\tup}{\textup}
+\newcommand{\mbf}{\mathbf}
+\providecommand{\mit}{\mathit}
+\newcommand{\msf}{\mathsf}
+\newcommand{\mrm}{\mathm}
+\newcommand{\mtt}{\mathtt}
+\newcommand{\Bold}[1]{\boldsymbol{#1}}
+\newcommand{\Cal}[1]{\mathcal{#1}}
+\newcommand{\DD}[1]{\mathbb{#1}}
+\newcommand{\Euler}[1]{\mathscr{#1}}
+\newcommand{\Frak}[1]{\mathfrak{#1}}
+
+\theoremstyle{remark}
+\newtheorem{problem}{\normalfont \bfseries Problem}
+
+\definecolor{lightgray}{RGB}{240,240,240}
+\definecolor{darkgreen}{RGB}{51,102,0}
+
+\lstset{
+  backgroundcolor=\color{lightgray},
+  basicstyle=\footnotesize\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{darkgreen},
+  keywordstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+\Course{CS110}
+\Title{Project 3}
+\Author{Swami Iyer}
+\Semester{Spring 2015}
+
+\begin{document}
+
+\noindent \tbf{Section Readings:} 1.5, 1.6, 2.1, 2.2
+
+\bigskip
+
+\begin{problem}
+(\tit{Dragon Curves}) Write a program \lstinline$Dragon$ that takes an \lstinline$int$ value $N$ as command-line argument and prints the instructions for drawing the dragon curve of order $N$. The instructions are strings of F, L, and R characters, where F means ``draw line while moving 1 unit forward,'' L means ``turn left,''
+and R means ``turn right.'' A dragon curve of order 0 is just the character F, and a curve of order $N$ is a curve of order $N-1$ followed by an L followed by a curve of order $N-1$ traversed in reverse order with R replaced by L and L replaced by R. 
+
+\begin{lstlisting}[language=bash]
+$ java Dragon 0
+F
+$ java Dragon 1
+FLF
+$ java Dragon 2
+FLFLFRF
+$ java Dragon 3
+FLFLFRFLFLFRFRF
+\end{lstlisting}
+Dragon curves of orders 0, 1, 2, and 3 and the corresponding instructions are shown below.
+
+\begin{center}
+\includegraphics[scale=0.7]{dragon.pdf}
+\end{center}
+\end{problem}
+
+\begin{problem}
+(\tit{Visualizing Dragon Curves}) Write a program \lstinline$DragonPlot$ that reads from standard input the instructions produced by \lstinline$Dragon$ (from Problem 1) for drawing a dragon curve, generates a drawing of the curve (shown below), and saves it in a file called \lstinline$dragon.jpg$. 
+
+\begin{lstlisting}[language=bash]
+$ java Dragon 13 | java DragonPlot
+\end{lstlisting}
+
+\begin{center}
+\includegraphics[scale=0.35]{dragon_reference.jpg}
+\end{center}
+\end{problem}
+
+\begin{problem}
+(\tit{Numbers Library}) Implement \lstinline$Numbers$, a library of static methods with the following API:
+
+\begin{lstlisting}[language=Java]
+public class Numbers
+
+    // Return true if n is prime, and false otherwise.
+    public static boolean isPrime(int n)
+    
+    // Return the greatest common divisor of a and b.
+    public static int gcd(int a, int b)
+    
+    // Return true if a and b are coprime, ie, their gcd is 1, and false 
+    // otherwise.
+    public static boolean coprime(int a, int b)
+
+    // Return the sum of the proper divisors of n. Eg, if n is 6, return 
+    // 1 + 2 + 3 = 6, since 1, 2, and 3 are the proper divisors of 6.
+    public static int sumOfProperDivisors(int n) 
+
+    // Return true if n is perfect, ie, its proper divisors add up to n, 
+    // and false otherwise.
+    public static boolean isPerfect(int n) 
+    
+    // Return true if a and b are amicable, ie, the proper divisors of a 
+    // add up to b and the proper divisors of b add up to a.
+    public static boolean amicable(int a, int b) 
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash]
+$ java Numbers
+false
+true
+8
+true
+true
+false
+true
+\end{lstlisting}
+\end{problem}
+
+\begin{problem}
+(\tit{Counting Primes}) Write a client program \lstinline$PrimeCounter$ that takes an \lstinline$int$ value $n$ as command-line argument and prints the number of primes less than or equal to $n$. Your implementation must use the \lstinline$isPrime()$ method from \lstinline$Numbers$ to check if a number is prime or not.
+
+\begin{lstlisting}[language=bash]
+$ java PrimeCounter 100
+25
+$ java PrimeCounter 10000000
+664579
+\end{lstlisting}
+\end{problem}
+
+\begin{problem}
+(\tit{Counting Totatives}) Write a client program \lstinline$TotativeCounter$ that takes an \lstinline$int$ value $n$ as command-line argument and prints the number totatives of $n$, ie, the number of positive integers less than or equal to $n$ that are coprime to $n$. Your implementation must use the \lstinline$coprime()$ method from \lstinline$Numbers$ to check if two numbers are coprime.
+
+\begin{lstlisting}[language=bash]
+$ java TotativeCounter 100
+40
+\end{lstlisting}
+\end{problem}
+
+\begin{problem}
+(\tit{Coprime Pattern}) Write a client program \lstinline$CoprimePattern$ that takes an \lstinline$int$ value $n$ as a command-line argument and prints an $n$-by-$n$ matrix such that the
+element in row $i$ and column $j$ $(1 \leq i, j \leq n)$ is a \lstinline$"*"$ (a star) if $i$ and $j$ are coprime and a \lstinline$" "$ (a space) otherwise. The row numbers should be
+printed at the end of each row. Your implementation must use the \lstinline$coprime()$ method from \lstinline$Numbers$ to check if two numbers are coprime.
+
+\begin{lstlisting}[language=bash]
+$ java CoprimePattern 10
+* * * * * * * * * * 1
+*   *   *   *   *   2
+* *   * *   * *   * 3
+*   *   *   *   *   4
+* * * *   * * * *   5
+*       *   *       6
+* * * * * *   * * * 7
+*   *   *   *   *   8
+* *   * *   * *   * 9
+*   *       *   *   10
+\end{lstlisting}
+\end{problem}
+
+\begin{problem}
+(\tit{Perfect Numbers}) Write a client program \lstinline$PerfectNumbers$ that takes an \lstinline$int$ value $n$ as command-line argument and prints the numbers less than or equal to $n$ that are perfect. Your implementation must use the \lstinline$isPerfect()$ method from \lstinline$Numbers$ to check if a number is perfect.
+
+\begin{lstlisting}[language=bash]
+$ java PerfectNumbers 10000
+6
+28
+496
+8128
+\end{lstlisting}
+\end{problem}
+
+\begin{problem}
+(\tit{Amicable Pairs}) Write a client program \lstinline$AmicablePairs$ that takes an \lstinline$int$ value $n$ as command-line argument and prints distinct pairs $(i, j)$ with $i \neq j$ and $1 \leq i, j \leq n$, such that $i$ and $j$ are amicable. Your implementation must use the \lstinline$amicable()$ method from \lstinline$Numbers$ to check if two numbers are amicable.
+
+\begin{lstlisting}[language=bash]
+$ java AmicablePairs 3000
+(220, 284)
+(1184, 1210)
+(2620, 2924)
+\end{lstlisting}
+\end{problem}
+
+\noindent \tbf{Files to Submit:}
+\begin{enumerate}
+\itemsep0em
+\item \lstinline$Dragon.java$
+\item \lstinline$DragonPlot.java$
+\item \lstinline$Numbers.java$
+\item \lstinline$PrimeCounter.java$
+\item \lstinline$TotativeCounter.java$
+\item \lstinline$CoprimePattern.java$
+\item \lstinline$PerfectNumbers.java$
+\item \lstinline$AmicablePairs.java$
+\item \lstinline$report.txt$
+\end{enumerate}
+\end{document}

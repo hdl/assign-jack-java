@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ "$#" -lt 1 ]; then
+    echo "Usage: check_submission <username> [server]"
+    exit 1
+fi
+
+username=$1
+if [ "$#" -eq 1 ]; then
+    server="$username@users1.cs.umb.edu"
+else
+    server="$username@$2"
+fi
+course="cs110"
+assignment="project3"
+destiny="/home/$username/$course/$assignment"
+ssh "$server" ls -l --time-style=long-iso $destiny | sed -e 's/ \+/ /g' | cut -d " " -f 6,7,8 | awk '{if (NR > 1) printf "%-20s\t%s\t%s\n", $3, $2, $1}'

@@ -1,0 +1,25 @@
+1. Hours to complete the project:~ 
+
+2. Short description of how you approached each problem, issues you encountered, 
+   and how you sorted those issues.
+
+   Problem 1 (Dragon Curves):~ 
+
+   Problem 2 (Visualizing Dragon Curves):~ 
+
+   Problem 3 (Numbers Library):~ 
+
+   Problem 4 (Counting Primes):~ 
+
+   Problem 5 (Counting Totatives):~ 
+
+   Problem 6 (Coprime Pattern):~ 
+
+   Problem 7 (Perfect Numbers):~ 
+
+   Problem 8 (Amicable Pairs):~ 
+
+3. Did you receive any help from classmates, past CS110 students, TAs, or 
+   anyone else? Please list their names:~ 
+
+4. Other comments:~ 

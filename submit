@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ "$#" -lt 2 ]; then
+    echo "Usage: submit <username> <filename> [server]"
+    exit 1
+fi
+
+username=$1
+filename=$2
+if [ "$#" -eq 2 ]; then
+    server="$username@users1.cs.umb.edu"
+else
+    server="$username@$3"
+fi
+course="cs110"
+assignment="project3"
+destiny="/home/$username/$course/$assignment"
+ssh "$server" "mkdir -p $destiny" && scp "$filename" "$server:$destiny"

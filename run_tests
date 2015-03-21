@@ -1,0 +1,96 @@
+#!/usr/bin/python
+
+import datetime, os, signal, subprocess, sys, time
+
+def run(command, timeout = 30, stdin = None):
+    cmd = command.split(" ")
+    start = datetime.datetime.now()
+    process = subprocess.Popen(cmd, stdout = subprocess.PIPE, 
+                               stderr = subprocess.PIPE, stdin = stdin)
+    while process.poll() is None:
+        time.sleep(0.1)
+        now = datetime.datetime.now()
+        if (now - start).seconds > timeout:
+            os.kill(process.pid, signal.SIGKILL)
+            os.waitpid(-1, os.WNOHANG)
+            return None
+    return process.stdout.read().strip().replace("\r\n", "\n")
+
+def Problem1():
+    print "***** Dragon Curves *****"
+    command = "java Dragon 5"
+    sought = "FLFLFRFLFLFRFRFLFLFLFRFRFLFRFRFLFLFLFRFLFLFRFRFRFLFLFRFRFLFRFRF"
+    got = run("java Dragon 5")
+    print "Command: %s" %(command)
+    print "Sought: %s" %(sought)
+    print "%s" %("ok" if got == sought else "Got: %s" %(got))
+
+def Problem2():
+    print "***** Visualizing Dragon Curves *****"
+    command = "java DragonPlot < dragon.txt"
+    got = run("java DragonPlot < ", stdin = open("dragon.txt", "r"))
+    print "Command: %s" %(command)
+    print "Compare dragon.jpg with dragon_reference.jpg"
+
+def Problem3():
+    print "***** Numbers Library *****"
+    command = "java Numbers"
+    sought = "false\ntrue\n8\ntrue\ntrue\nfalse\ntrue"
+    got = run("java Numbers")
+    print "Command: %s" %(command)
+    print "Sought: %s" %(sought)
+    print "%s" %("ok" if got == sought else "Got: %s" %(got))
+
+def Problem4():
+    print "***** Counting Primes *****"
+    command = "java PrimeCounter 100"
+    sought = "25"
+    got = run("java PrimeCounter 100")
+    print "Command: %s" %(command)
+    print "Sought: %s" %(sought)
+    print "%s" %("ok" if got == sought else "Got: %s" %(got))
+
+def Problem5():
+    print "***** Counting Totatives *****"
+    command = "java TotativeCounter 100"
+    sought = "40"
+    got = run("java TotativeCounter 100")
+    print "Command: %s" %(command)
+    print "Sought: %s" %(sought)
+    print "%s" %("ok" if got == sought else "Got: %s" %(got))
+
+def Problem6():
+    print "***** Coprime Pattern *****"
+    command = "java CoprimePattern 20"
+    sought = "* * * * * * * * * * * * * * * * * * * * 1\n*   *   *   *   *   *   *   *   *   *   2\n* *   * *   * *   * *   * *   * *   * * 3\n*   *   *   *   *   *   *   *   *   *   4\n* * * *   * * * *   * * * *   * * * *   5\n*       *   *       *   *       *   *   6\n* * * * * *   * * * * * *   * * * * * * 7\n*   *   *   *   *   *   *   *   *   *   8\n* *   * *   * *   * *   * *   * *   * * 9\n*   *       *   *   *   *       *   *   10\n* * * * * * * * * *   * * * * * * * * * 11\n*       *   *       *   *       *   *   12\n* * * * * * * * * * * *   * * * * * * * 13\n*   *   *       *   *   *   *   *   *   14\n* *   *     * *     *   * *   * *   *   15\n*   *   *   *   *   *   *   *   *   *   16\n* * * * * * * * * * * * * * * *   * * * 17\n*       *   *       *   *       *   *   18\n* * * * * * * * * * * * * * * * * *   * 19\n*   *       *   *   *   *       *   *   20"
+    got = run("java CoprimePattern 20")
+    print "Command: %s" %(command)
+    print "Sought: %s" %(sought)
+    print "%s" %("ok" if got == sought else "Got: %s" %(got))
+
+def Problem7():
+    print "***** Perfect Numbers *****"
+    command = "java PerfectNumbers 10000"
+    sought = "6\n28\n496\n8128"
+    got = run("java PerfectNumbers 10000")
+    print "Command: %s" %(command)
+    print "Sought: %s" %(sought)
+    print "%s" %("ok" if got == sought else "Got: %s" %(got))
+
+def Problem8():
+    print "***** Amicable Pairs *****"
+    command = "java AmicablePairs 3000"
+    sought = "(220, 284)\n(1184, 1210)\n(2620, 2924)"
+    got = run("java AmicablePairs 3000", timeout = 60)
+    print "Command: %s" %(command)
+    print "Sought: %s" %(sought)
+    print "%s" %("ok" if got == sought else "Got: %s" %(got))
+
+if __name__ == "__main__":
+    problems = [None, Problem1, Problem2, Problem3, Problem4, 
+                Problem5, Problem6, Problem7, Problem8]
+    args = map(int, sys.argv[1:])
+    args = args if len(args) > 0 else range(1, len(problems))
+    for i in args:
+        problems[i]()
+        print ""
