@@ -1,53 +1,43 @@
+
 public class Numbers {
-    // Return true if n is prime, and false otherwise.
-    public static boolean isPrime(int n) {
-       // TBD
-    }
-
-    // Return the greatest common divisor of a and b, caclulated using 
-    // Euclid’s algorithm: 
-    // function gcd(a, b)
-    //     while b != 0
-    //         r := a mod b
-    //         a := b
-    //         b := r
-    //     return a
-    public static int gcd(int a, int b) {
-        // TBD
-    }
-
-    // Return true if a and b are coprime, ie, their gcd is 1, and false 
-    // otherwise.
-    public static boolean coprime(int a, int b) {
-        // TBD
-    }
-
-    // Return the sum of the proper divisors of n. Eg, if n is 6, return 
-    // 1 + 2 + 3 = 6, since 1, 2, and 3 are the proper divisors of 6.
-    public static int sumOfProperDivisors(int n) {
-        // TBD
+    public static boolean isPrime(int  n) {
+    	if (n == 2) return true;
+    	if (n <= 0 || n % 2 == 0) return false;
+    	else {
+    		for (int i = 3; i < n / 2; i++) {
+    			if (n % i == 0) return false;
+    		}
+    		return true;
+    	}
     }
     
-    // Return true if n is perfect, ie, its proper divisors add up to n, 
-    // and false otherwise.
+    public static int gcd(int a, int b) {
+    	if (b == 0) return a;
+    	return gcd(b, a % b);
+    }
+    
+    public static boolean coprime(int a, int b) {
+    	if (a == b) return false;
+    	if (gcd(a, b) == 1) return true;
+    	else return false;
+    }
+    
+    public static int sumOfProperDivisors(int n) {
+    	int sum = 0;
+    	for (int i = 1; i < n; i++) {
+    		if (n % i == 0) sum += i;
+    	}
+    	return sum;
+    }
+    
     public static boolean isPerfect(int n) {
-        // TBD
+    	if (n <= 0) return false;
+    	if (sumOfProperDivisors(n) == n) return true;
+    	else return false;
     }
-
-    // Return true if a and b are amicable, ie, the proper divisors of a 
-    // add up to b and the proper divisors of b add up to a.
+    
     public static boolean amicable(int a, int b) {
-        // TBD
-    }
-
-    // Test client (DO NOT EDIT).
-    public static void main(String[] args) {
-        StdOut.println(isPrime(28));
-        StdOut.println(isPrime(29));
-        StdOut.println(gcd(24, 128));
-        StdOut.println(coprime(28, 29));
-        StdOut.println(isPerfect(28));
-        StdOut.println(isPerfect(29));
-        StdOut.println(amicable(220, 284));
+    	if (sumOfProperDivisors(a) == b && sumOfProperDivisors(b) == a) return true;
+    	else return false;
     }
 }
