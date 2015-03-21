@@ -22,8 +22,7 @@ public class DragonPlot {
                 double old_y=y;
                 x = old_x + step * Math.cos(angle);
                 y = old_y + step * Math.sin(angle);
-                StdDraw.line(old_x. old_y, x, y);
-;
+                StdDraw.line(old_x, old_y, x, y);
             }
             else if (c == 'L') {
                 // TBD: rotate counter-clockwise by 90 degrees
